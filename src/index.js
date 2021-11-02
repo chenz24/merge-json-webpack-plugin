@@ -82,7 +82,7 @@ class MergeJsonPlugin {
       });
 
       const f = await Promise.all(filesPromises);
-      const mergedJson = f.reduce((acc, val) => mergeFn(acc, val));
+      const mergedJson = f.length ? f.reduce((acc, val) => mergeFn(acc, val)) : {};
 
       const modifiedJson = typeof transform === 'function'
         ? await transform(mergedJson)
@@ -148,7 +148,7 @@ class MergeJsonPlugin {
       }
 
       compilation.emitAsset(assetName, output, assetInfo);
-      logger.info(`File written to: ${assetName}`);
+      logger.log(`File written to: ${assetName}`);
     });
 
     await Promise.all(assetsPromises);
